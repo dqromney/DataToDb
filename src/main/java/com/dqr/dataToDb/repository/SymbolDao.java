@@ -1,5 +1,6 @@
 package com.dqr.dataToDb.repository;
 
+import com.dqr.dataToDb.types.SymbolType;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
@@ -11,12 +12,11 @@ import org.skife.jdbi.v2.sqlobject.SqlUpdate;
  */
 public interface SymbolDao {
 
-    // TODO
-    @SqlUpdate("insert into photo (subject, text, imageUrl, userid) values (:subject, :text, :imageUrl, :userid)")
-    void insert(@Bind("subject") String subject, @Bind("text") String text, @Bind("imageUrl") String imageUrl, @Bind("userid") Long userid);
+    @SqlUpdate("insert into symbol (symbol, name, type, exchange) values (:symbol, :name, :type, :exchange)")
+    void insert(@Bind("symbol") String symbol, @Bind("name") String name, @Bind("symbolType") SymbolType symbolType, @Bind("exchange") String exchange);
 
-    @SqlQuery("select subject from user where id = :id")
-    String findSubjectById(@Bind("id") int id);
+    @SqlQuery("select symbol from symbol where id = :id")
+    String findSymbolById(@Bind("id") int id);
 
     /**
      * close with no args is used to close the connection
