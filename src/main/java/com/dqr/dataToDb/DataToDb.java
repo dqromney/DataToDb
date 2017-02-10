@@ -32,7 +32,7 @@ public class DataToDb {
     public static void main(String[] args) {
         DataToDb dataToDb = new DataToDb();
         dataToDb.init();
-
+        dataToDb.egress();
     }
 
     public void init() {
