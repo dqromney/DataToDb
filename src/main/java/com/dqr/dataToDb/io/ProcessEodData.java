@@ -3,8 +3,8 @@ package com.dqr.dataToDb.io;
 import com.dqr.dataToDb.model.Eod;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class ProcessEodData {
 
-    public Eod process(String[] line) {
+    public Eod process(String[] line) throws ParseException {
         Eod eod = new Eod(null, null,
                 strToDate(line[0]),
                 new BigDecimal(line[1]), new BigDecimal(line[2]), new BigDecimal(line[3]), new BigDecimal(line[4]),
@@ -23,14 +23,12 @@ public class ProcessEodData {
         return eod;
     }
 
-    public Date strToDate(String dateStr) {
+    public Date strToDate(String dateStr) throws ParseException {
         Date date = null;
-        try {
-            date = DateFormat.getDateInstance().parse(dateStr);
-            System.out.println(date.toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
+        sdf.setLenient(false);
+        date = sdf.parse(dateStr);
         return date;
     }
 }
