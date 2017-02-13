@@ -10,6 +10,7 @@ import org.skife.jdbi.v2.DBI;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Properties;
 
@@ -34,7 +35,7 @@ public class DataToDb {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
         DataToDb dataToDb = new DataToDb();
         dataToDb.init();
         dataToDb.execute();
@@ -45,7 +46,7 @@ public class DataToDb {
         System.out.println("Hello Data to DB Application.");
         dbi = new DBI(dataSource);
     }
-    public void execute() throws IOException {
+    public void execute() throws IOException, ParseException {
         // Get list of files in directory
         // Process each file
         String zipPathFile = "src/main/resources/A.ZIP";
