@@ -22,6 +22,6 @@ public class UncompressFile {
 
     public void unZip() {
         UnZip unZip = new UnZip();
-        unZip.unZipIt(zipPathFile, ".");
+        unZip.unZipIt(zipPathFile, "./src/main/resources");
     }
 }

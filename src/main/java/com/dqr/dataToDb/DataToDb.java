@@ -48,13 +48,13 @@ public class DataToDb {
     public void execute() throws IOException {
         // Get list of files in directory
         // Process each file
-        String zipPathFile = "DataToDb/src/main/resources/A.ZIP";
+        String zipPathFile = "src/main/resources/A.ZIP";
         UncompressFile uncompressFile = new UncompressFile(zipPathFile);
         if (uncompressFile.isValid()) {
             uncompressFile.unZip();
         }
 
-        ReadData readData = new ReadData("./A.CSV");
+        ReadData readData = new ReadData("src/main/resources/A.CSV");
         List<String[]> lineList = readData.getAllLines();
         ProcessEodData processEodData = new ProcessEodData();
         for(String[] item: lineList) {
