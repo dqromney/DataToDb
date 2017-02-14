@@ -9,8 +9,8 @@ import java.util.Date;
  * Created by dqromney on 2/9/17.
  */
 public class Eod {
-    private Integer id;
-    private Integer symbolId;
+    private Long id;
+    private Long symbolId;
     private Date date;
     private BigDecimal open;
     private BigDecimal high;
@@ -20,7 +20,7 @@ public class Eod {
     private Long openInterest;
     private Date lastUpdate;
 
-    public Eod(Integer id, Integer symbolId, Date date,
+    public Eod(Long id, Long symbolId, Date date,
                BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close,
                Long volume, Long openInterest, Date lastUpdate) {
         this.id = id;
@@ -39,19 +39,19 @@ public class Eod {
     // Access methods
     // ----------------------------------------------------------------
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getSymbolId() {
+    public Long getSymbolId() {
         return symbolId;
     }
 
-    public void setSymbolId(Integer symbolId) {
+    public void setSymbolId(Long symbolId) {
         this.symbolId = symbolId;
     }
 

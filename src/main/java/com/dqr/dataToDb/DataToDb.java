@@ -4,7 +4,10 @@ import com.dqr.dataToDb.io.ProcessEodData;
 import com.dqr.dataToDb.io.ReadData;
 import com.dqr.dataToDb.io.UncompressFile;
 import com.dqr.dataToDb.model.Eod;
+import com.dqr.dataToDb.model.Symbol;
 import com.dqr.dataToDb.repository.DataSourceFactory;
+import com.dqr.dataToDb.service.Securities;
+import com.dqr.dataToDb.types.SymbolType;
 import com.dqr.dataToDb.utils.ReadConfig;
 import org.skife.jdbi.v2.DBI;
 
@@ -55,11 +58,15 @@ public class DataToDb {
             uncompressFile.unZip();
         }
 
+        Symbol symbol = new Symbol(null, "A", "Agilent Technologies, Inc.", SymbolType.STOCK, "NYSE");
+
         ReadData readData = new ReadData("src/main/resources/A.CSV");
         List<String[]> lineList = readData.getAllLines();
         ProcessEodData processEodData = new ProcessEodData();
         for(String[] item: lineList) {
             Eod eod = processEodData.process(item);
+            Securities securities = new Securities(dbi);
+            securities.add(symbol, eod);
             System.out.println(eod);
         }
     }

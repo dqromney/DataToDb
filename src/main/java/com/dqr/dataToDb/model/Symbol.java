@@ -1,12 +1,15 @@
 package com.dqr.dataToDb.model;
 
+import com.dqr.dataToDb.mapping.SymbolMapper;
 import com.dqr.dataToDb.types.SymbolType;
+import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 /**
  * Symbol model class.
  *
  * Created by dqromney on 2/9/17.
  */
+@RegisterMapper(SymbolMapper.class)
 public class Symbol {
     private Long id;
     private String symbol;

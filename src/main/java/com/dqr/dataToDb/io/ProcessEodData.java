@@ -4,11 +4,12 @@ import com.dqr.dataToDb.model.Eod;
 import com.dqr.dataToDb.utils.Converters;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
  * Process Data.
- *
+ * <p>
  * Created by dqromney on 2/11/17.
  */
 public class ProcessEodData {
