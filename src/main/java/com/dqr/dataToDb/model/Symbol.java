@@ -1,7 +1,6 @@
 package com.dqr.dataToDb.model;
 
 import com.dqr.dataToDb.mapping.SymbolMapper;
-import com.dqr.dataToDb.types.SymbolType;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 /**
@@ -14,14 +13,14 @@ public class Symbol {
     private Long id;
     private String symbol;
     private String name;
-    private SymbolType type;
+    private Integer type;
     private String exchange;
 
     public Symbol() {
         // Empty
     }
 
-    public Symbol(Long id, String symbol, String name, SymbolType type, String exchange) {
+    public Symbol(Long id, String symbol, String name, Integer type, String exchange) {
         this.id = id;
         this.symbol = symbol;
         this.name = name;
@@ -57,11 +56,11 @@ public class Symbol {
         this.name = name;
     }
 
-    public SymbolType getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(SymbolType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

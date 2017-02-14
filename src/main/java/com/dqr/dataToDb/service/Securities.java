@@ -24,7 +24,7 @@ public class Securities {
 
         Symbol symbol = symbolDao.findBySymbol(pSymbol.getSymbol());
         if (symbol == null) {
-            symbolDao.insert(pSymbol.getSymbol(), pSymbol.getName(), pSymbol.getType().getValue(), pSymbol.getExchange());
+            symbolDao.insert(pSymbol.getSymbol(), pSymbol.getName(), pSymbol.getType(), pSymbol.getExchange());
             symbol = symbolDao.findBySymbol(pSymbol.getSymbol());
         }
         pEod.setSymbolId(symbol.getId());

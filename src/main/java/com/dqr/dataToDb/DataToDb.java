@@ -58,7 +58,7 @@ public class DataToDb {
             uncompressFile.unZip();
         }
 
-        Symbol symbol = new Symbol(null, "A", "Agilent Technologies, Inc.", SymbolType.STOCK, "NYSE");
+        Symbol symbol = new Symbol(null, "A", "Agilent Technologies, Inc.", SymbolType.STOCK.getValue(), "NYSE");
 
         ReadData readData = new ReadData("src/main/resources/A.CSV");
         List<String[]> lineList = readData.getAllLines();

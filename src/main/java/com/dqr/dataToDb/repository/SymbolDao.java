@@ -2,7 +2,6 @@ package com.dqr.dataToDb.repository;
 
 import com.dqr.dataToDb.mapping.SymbolMapper;
 import com.dqr.dataToDb.model.Symbol;
-import com.dqr.dataToDb.types.SymbolType;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
@@ -25,7 +24,7 @@ public interface SymbolDao {
      * @param exchange   the exchange
      */
     @SqlUpdate("insert into symbol (symbol, name, type, exchange) values (:symbol, :name, :type, :exchange)")
-    void insert(@Bind("symbol") String symbol, @Bind("name") String name, @Bind("symbolType") SymbolType symbolType, @Bind("exchange") String exchange);
+    void insert(@Bind("symbol") String symbol, @Bind("name") String name, @Bind("type") Integer type, @Bind("exchange") String exchange);
 
     /**
      * Find symbol by id string.

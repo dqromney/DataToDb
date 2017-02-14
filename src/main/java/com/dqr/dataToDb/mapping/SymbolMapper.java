@@ -1,7 +1,6 @@
 package com.dqr.dataToDb.mapping;
 
 import com.dqr.dataToDb.model.Symbol;
-import com.dqr.dataToDb.types.SymbolType;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
@@ -19,7 +18,7 @@ public class SymbolMapper implements ResultSetMapper<Symbol> {
                 r.getLong("id"),
                 r.getString("symbol"),
                 r.getString("name"),
-                SymbolType.valueOf(r.getString("type")),
+                r.getInt("type"),
                 r.getString("exchange"));
     }
 }
