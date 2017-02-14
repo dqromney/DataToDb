@@ -56,7 +56,7 @@ public class DataToDb {
     }
     public void execute() throws IOException, ParseException {
         // Get list of files in directory
-
+        Securities securities = new Securities(dbi);
         String sourceDir = "/Users/dqromney/Google Drive/TBSP-Trading-Data-92-97";
         Files.walk(Paths.get(sourceDir))
                 .filter(Files::isRegularFile)
@@ -82,7 +82,6 @@ public class DataToDb {
                                 ProcessEodData processEodData = new ProcessEodData();
                                 for (String[] item : lineList) {
                                     Eod eod = processEodData.process(item);
-                                    Securities securities = new Securities(dbi);
                                     securities.add(symbol, eod);
                                     System.out.println(eod);
                                 }

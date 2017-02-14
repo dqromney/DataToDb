@@ -38,5 +38,8 @@ public class Securities {
         super.finalize();
         symbolDao.close();
         eodDao.close();
+        symbolDao = null;
+        eodDao = null;
+        System.out.println(String.format("Closing connections to symbolDao=[%1$s] and eodDao=[%2$s]",symbolDao, eodDao));
     }
 }
