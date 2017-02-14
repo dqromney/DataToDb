@@ -13,14 +13,16 @@ import org.skife.jdbi.v2.DBI;
  */
 public class Securities {
     private DBI dbi;
+    private SymbolDao symbolDao;
+    private EodDao eodDao;
 
     public Securities(DBI pDbi) {
         this.dbi = pDbi;
+        symbolDao = dbi.open(SymbolDao.class);
+        eodDao = dbi.open(EodDao.class);
     }
 
     public void add(Symbol pSymbol, Eod pEod) {
-        SymbolDao symbolDao = dbi.open(SymbolDao.class);
-        EodDao eodDao = dbi.open(EodDao.class);
 
         Symbol symbol = symbolDao.findBySymbol(pSymbol.getSymbol());
         if (symbol == null) {
@@ -29,7 +31,11 @@ public class Securities {
         }
         pEod.setSymbolId(symbol.getId());
         eodDao.insert(symbol.getId(), pEod.getDate(), pEod.getOpen(), pEod.getHigh(), pEod.getLow(), pEod.getClose(), pEod.getVolume(), pEod.getOpenInterest(), pEod.getLastUpdate());
+    }
 
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
         symbolDao.close();
         eodDao.close();
     }

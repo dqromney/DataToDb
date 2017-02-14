@@ -12,7 +12,12 @@ import com.dqr.dataToDb.utils.ReadConfig;
 import org.skife.jdbi.v2.DBI;
 
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Properties;
@@ -51,24 +56,73 @@ public class DataToDb {
     }
     public void execute() throws IOException, ParseException {
         // Get list of files in directory
+
+        String sourceDir = "/Users/dqromney/Google Drive/TBSP-Trading-Data-92-97";
+        Files.walk(Paths.get(sourceDir))
+                .filter(Files::isRegularFile)
+                .forEach(f -> {
+                    File file = f.toFile();
+                    Path path = file.toPath();
+                    if (!file.isHidden()) {
+                        String theSymbol = file.getName().substring(0, file.getName().lastIndexOf('.'));
+                        String[] pathArray = path.toString().split("/");
+
+                        SymbolType symbolType = SymbolType.findByName(pathArray[pathArray.length - 3]);
+                        if (!symbolType.equals(SymbolType.UNDEFINED)) {
+                            Symbol symbol = new Symbol(null, theSymbol, null, symbolType.getValue(), null);
+
+                            UncompressFile uncompressFile = new UncompressFile(file.toPath().toString());
+                            if (uncompressFile.isValid()) {
+                                uncompressFile.unZip();
+                            }
+                            String csvPathFile = String.format("src/main/resources/%1$s.CSV", theSymbol);
+                            try {
+                                ReadData readData = new ReadData(csvPathFile);
+                                List<String[]> lineList = readData.getAllLines();
+                                ProcessEodData processEodData = new ProcessEodData();
+                                for (String[] item : lineList) {
+                                    Eod eod = processEodData.process(item);
+                                    Securities securities = new Securities(dbi);
+                                    securities.add(symbol, eod);
+                                    System.out.println(eod);
+                                }
+
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } finally {
+                                File removeFile = new File(csvPathFile);
+                                if (removeFile.delete()) {
+                                    System.out.println(String.format("File %1$s removed", csvPathFile));
+                                } else {
+                                    System.out.println(String.format("Error removing file %1$s!", csvPathFile));
+                                }
+                            }
+                        }
+                    }
+                });
+
         // Process each file
-        String zipPathFile = "src/main/resources/A.ZIP";
-        UncompressFile uncompressFile = new UncompressFile(zipPathFile);
-        if (uncompressFile.isValid()) {
-            uncompressFile.unZip();
-        }
-
-        Symbol symbol = new Symbol(null, "A", "Agilent Technologies, Inc.", SymbolType.STOCK.getValue(), "NYSE");
-
-        ReadData readData = new ReadData("src/main/resources/A.CSV");
-        List<String[]> lineList = readData.getAllLines();
-        ProcessEodData processEodData = new ProcessEodData();
-        for(String[] item: lineList) {
-            Eod eod = processEodData.process(item);
-            Securities securities = new Securities(dbi);
-            securities.add(symbol, eod);
-            System.out.println(eod);
-        }
+//        String zipPathFile = "src/main/resources/A.ZIP";
+//        UncompressFile uncompressFile = new UncompressFile(zipPathFile);
+//        if (uncompressFile.isValid()) {
+//            uncompressFile.unZip();
+//        }
+//
+//        Symbol symbol = new Symbol(null, "A", "Agilent Technologies, Inc.", SymbolType.STOCK.getValue(), "NYSE");
+//
+//        ReadData readData = new ReadData("src/main/resources/A.CSV");
+//        List<String[]> lineList = readData.getAllLines();
+//        ProcessEodData processEodData = new ProcessEodData();
+//        for(String[] item: lineList) {
+//            Eod eod = processEodData.process(item);
+//            Securities securities = new Securities(dbi);
+//            securities.add(symbol, eod);
+//            System.out.println(eod);
+//        }
     }
 
     public void egress() {

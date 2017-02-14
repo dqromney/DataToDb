@@ -20,7 +20,7 @@ public interface SymbolDao {
      *
      * @param symbol     the symbol
      * @param name       the name
-     * @param symbolType the symbol type
+     * @param type       the symbol type
      * @param exchange   the exchange
      */
     @SqlUpdate("insert into symbol (symbol, name, type, exchange) values (:symbol, :name, :type, :exchange)")

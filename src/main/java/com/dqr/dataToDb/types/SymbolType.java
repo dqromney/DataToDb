@@ -6,9 +6,13 @@ package com.dqr.dataToDb.types;
  * Created by dqromney on 2/9/17.
  */
 public enum SymbolType {
-    STOCK("Stock", 1),
-    INDEX("Index", 2),
-    FUTURE("Future", 3);
+    UNDEFINED("Undefined", 0),
+    STOCK("Stocks", 1),
+    INDEX("Indexes", 2),
+    FUTURE("Futures", 3),
+    CANADA("Canada", 4),
+    FUNDS("Funds", 5),
+    PTFS("Ptf's", 6);
 
     private String name;
     private Integer value;
@@ -16,6 +20,17 @@ public enum SymbolType {
     SymbolType(String name, Integer value) {
         this.name = name;
         this.value = value;
+    }
+
+    public static SymbolType findByName(String pType) {
+        SymbolType symbolType = SymbolType.UNDEFINED;
+        for(SymbolType type: SymbolType.values()) {
+            if (pType.equals(type.getName())) {
+                symbolType = type;
+                break;
+            }
+        }
+        return symbolType;
     }
 
     public String getName() {
